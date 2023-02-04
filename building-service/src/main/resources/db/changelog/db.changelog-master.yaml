@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: liquibase
+      changes:
+        - createTable:
+            tableName: building
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: area
+                  type: double
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: room
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: area
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: floor
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: building_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_room_building
+            baseTableName: room
+            baseColumnNames: building_id
+            referencedTableName: building
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: room
+            columnNames: name, building_id

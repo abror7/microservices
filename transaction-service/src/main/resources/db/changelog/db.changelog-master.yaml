@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: Abror
+      changes:
+        - createTable:
+            tableName: transaction_history
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: from_building_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to_building_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: transaction_item
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: transaction_history_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: inventory_id
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: integer
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_transaction_item_history
+            baseTableName: transaction_item
+            baseColumnNames: transaction_history_id
+            referencedTableName: transaction_history
+            referencedColumnNames: id

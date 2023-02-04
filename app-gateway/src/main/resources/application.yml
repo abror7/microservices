@@ -1,0 +1,57 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: building-service
+          uri: lb://building-service
+          predicates:
+            - Path=/building/**
+          filters:
+            - RewritePath=/building/(?<path>.*), /$\{path}
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/inventory/**
+          filters:
+            - RewritePath=/inventory/(?<path>.*), /$\{path}
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/transaction/**
+          filters:
+            - RewritePath=/transaction/(?<path>.*), /$\{path}
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
+springdoc:
+  swagger-ui:
+    use-root-path: true
+    urls:
+      - name: building
+        url: /v3/api-docs/building
+      - name: inventory
+        url: /v3/api-docs/inventory
+      - name: transaction
+        url: /v3/api-docs/transaction
+
+

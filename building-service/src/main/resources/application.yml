@@ -1,0 +1,28 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: building-service
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/building_service_db
+    username: postgres
+    password: root123
+  liquibase:
+    user: postgres
+    password: root123
+    url: jdbc:postgresql://localhost:5432/building_service_db
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: false
+#    drop-first: true
+logging:
+  level:
+    org.liquibase: DEBUG
+#
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+springdoc:
+  swagger-ui:
+    use-root-path: true

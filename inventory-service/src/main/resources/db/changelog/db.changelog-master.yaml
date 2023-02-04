@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: Abror
+      changes:
+        - createTable:
+            tableName: inventory
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: inventory_sign
+                  type: varchar(50)
+        - createTable:
+            tableName: inventory_item
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: inventory_number
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: int
+              - column:
+                  name: building_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: inventory_id
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_inventory_item_inventory
+            baseTableName: inventory_item
+            baseColumnNames: inventory_id
+            referencedTableName: inventory
+            referencedColumnNames: id
+        - addUniqueConstraint:
+            tableName: inventory
+            columnNames: name, inventory_sign
+        - addUniqueConstraint:
+            tableName: inventory_item
+            columnNames: inventory_number, inventory_id
