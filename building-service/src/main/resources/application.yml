@@ -7,16 +7,19 @@ spring:
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/building_service_db
     username: postgres
-    password: root123
+    password: root
+    pool:
+      enabled: true
   liquibase:
-    user: postgres
-    password: root123
-    url: jdbc:postgresql://localhost:5432/building_service_db
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    enabled: false
-#    drop-first: true
+    url: jdbc:postgresql://localhost:5432/building_service_db
+    user: postgres
+    password: root
 logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss.SSS}  %-5level --- [%X{spanId} | %thread] %logger{0} : %msg%n'
   level:
+    root: DEBUG
     org.liquibase: DEBUG
 #
 eureka:

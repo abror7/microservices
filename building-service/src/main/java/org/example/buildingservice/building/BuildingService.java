@@ -30,6 +30,7 @@ public class BuildingService {
             log.error("Bad request...");
             return Flux.error(() -> new CustomBadRequestException("Page and size should not be less than 1"));
         }
+        log.info("return all buildings");
         return buildingRepository.findAll()
                 .skip((long) page * size)
                 .take(size)

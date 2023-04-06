@@ -7,14 +7,14 @@ spring:
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/inventory_service_db
     username: postgres
-    password: root123
+    password: root
   liquibase:
     user: postgres
-    password: root123
+    password: root
     url: jdbc:postgresql://localhost:5432/inventory_service_db
     change-log: classpath:db/changelog/db.changelog-master.yaml
-#    enabled: true
-    enabled: false
+    enabled: true
+#    enabled: false
 logging:
   level:
     org.liquibase: DEBUG
